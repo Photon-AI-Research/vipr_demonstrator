@@ -1,3 +1,5 @@
+git clone --recursive https://github.com/Photon-AI-Research/vipr_demonstrator.git
+
 # VIPR Framework
 
 📊 **[TLDR Introduction](docs-sphinx/docs/TLDR%20VIPR%20Introduction.pdf)** - Quick framework overview (PDF)
