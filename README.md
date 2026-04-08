@@ -1,15 +1,15 @@
-git clone --recursive https://github.com/Photon-AI-Research/vipr_demonstrator.git
+# What is VIPR?
+TL;DR: VIPR (Versatile Inverse Problem Software Framework) is a modular machine learning framework designed for inverse problems in physics.
 
-# VIPR Framework
+Quick detail: VIPR (Versatile Inverse Problem Software Framework) is a plugin-based framework for reproducible machine-learning-driven solutions to scientific inverse problems.  It addresses ill-posed reconstruction tasks, e.g., caused by loss of phase information during measurement, where direct inversion is not possible. It implements a modular microkernel architecture with domain-specific plugins to produce configurable machine learning workflows, including both deterministic and probabilistic models. Workflows are defined via declarative YAML configurations and can be executed through a command-line interface or a containerized web application. For a given experimental dataset, VIPR produces standardized analysis artifacts, including visualizations and statistical summaries.
 
-📊 **[TLDR Introduction](docs-sphinx/docs/TLDR%20VIPR%20Introduction.pdf)** - Quick framework overview (PDF)
+📊 **[TLDR Introduction](framework/docs-sphinx/docs/TLDR%20VIPR%20Introduction.pdf)** - Quick framework overview (PDF)
 
 **Getting Started:**
-- 🖥️ [CLI Tutorial](VIPR_CLI.md) - Command-line interface
-- 🌐 [Web Application Tutorial](VIPR_web_app.md) - Docker-based web UI
-- 🌐 [Web Application Without Docker](VIPR_web_app_no_docker.md) - Local development setup
-
-VIPR (Versatile Inverse Problem Software Framework) is a modular machine learning framework designed for inverse problems in physics.
+- 🎉 `git clone --recursive https://github.com/Photon-AI-Research/vipr_demonstrator.git`
+- 🖥️ [CLI Tutorial](framework/VIPR_CLI.md) - Command-line interface
+- 🌐 [Web Application Tutorial](framework/VIPR_web_app.md) - Docker-based web UI
+- 🌐 [Web Application Without Docker](framework/VIPR_web_app_no_docker.md) - Local development setup
 
 ## Overview
 
@@ -21,15 +21,15 @@ VIPR (Versatile Inverse Problem Software Framework) is a modular machine learnin
 ## Getting Started
 
 ### 🖥️ Command Line Interface (CLI)
-- **[Getting Started Tutorial](VIPR_CLI.md)** - Installation to first prediction
-- **[CLI Introduction Presentation](docs-sphinx/docs/VIPR%20CLI%20introduction.pdf)** 📊 - CLI + Architecture deep-dive (PDF)
-- **[Installation Reference](docs-sphinx/docs/installation/cli.md)** - Quick install & commands
+- **[Getting Started Tutorial](framework/VIPR_CLI.md)** - Installation to first prediction
+- **[CLI Introduction Presentation](framework/docs-sphinx/docs/VIPR%20CLI%20introduction.pdf)** 📊 - CLI + Architecture deep-dive (PDF)
+- **[Installation Reference](framework/docs-sphinx/docs/installation/cli.md)** - Quick install & commands
 
 ### 🌐 Web Application (Docker)
-- **[Getting Started Tutorial](VIPR_web_app.md)** - Setup and first use
-- **[Without Docker](VIPR_web_app_no_docker.md)** - Local development setup with Redis, API, worker, and frontend
-- **[Inference Flow](docs-sphinx/docs/web-app/inference-flow.md)** - How inference works (Frontend → Backend → Core)
-- **[Deployment Reference](docs-sphinx/docs/installation/docker.md)** - Services, configuration, troubleshooting
+- **[Getting Started Tutorial](framework/VIPR_web_app.md)** - Setup and first use
+- **[Without Docker](framework/VIPR_web_app_no_docker.md)** - Local development setup with Redis, API, worker, and frontend
+- **[Inference Flow](framework/docs-sphinx/docs/web-app/inference-flow.md)** - How inference works (Frontend → Backend → Core)
+- **[Deployment Reference](framework/docs-sphinx/docs/installation/docker.md)** - Services, configuration, troubleshooting
 - **Access**: http://localhost:3000 (UI), http://localhost:8000/docs (API)
 
 ### 🔌 API Integration
@@ -38,11 +38,11 @@ VIPR (Versatile Inverse Problem Software Framework) is a modular machine learnin
 
 ## Quick Links
 
-- [Documentation](docs-sphinx/docs/) - Complete documentation
-- [Docker Deployment](docs-sphinx/docs/installation/docker.md) - Web UI + API setup
-- [Web App Without Docker](VIPR_web_app_no_docker.md) - Local development setup
-- [CLI Installation](docs-sphinx/docs/installation/cli.md) - Local CLI setup
-- [CLI Commands](docs-sphinx/docs/cli/commands.md) - Command reference
+- [Documentation](framework/docs-sphinx/docs/) - Complete documentation
+- [Docker Deployment](framework/docs-sphinx/docs/installation/docker.md) - Web UI + API setup
+- [Web App Without Docker](framework/VIPR_web_app_no_docker.md) - Local development setup
+- [CLI Installation](framework/docs-sphinx/docs/installation/cli.md) - Local CLI setup
+- [CLI Commands](framework/docs-sphinx/docs/cli/commands.md) - Command reference
 
 ## System Requirements
 
@@ -70,7 +70,7 @@ vipr-framework/
 
 This project is licensed under the GNU Lesser General Public License v3.0 or later (LGPL-3.0-or-later).
 
-See [LICENSE.txt](LICENSE.txt) for the full license text and [NOTICE.txt](NOTICE.txt) for component information.
+See [LICENSE.txt](framework/LICENSE.txt) for the full license text and [NOTICE.txt](framework/NOTICE.txt) for component information.
 
 ### VIPR Components
 
@@ -79,6 +79,18 @@ The VIPR Framework orchestrates multiple components, each with their own reposit
 - **vipr-api**: FastAPI backend service - https://codebase.helmholtz.cloud/vipr/vipr-api
 - **vipr-reflectometry-plugin**: Reflectometry analysis plugin - https://codebase.helmholtz.cloud/vipr/vipr-reflectometry-plugin
 - **vipr-frontend**: Nuxt.js web application - https://codebase.helmholtz.cloud/vipr/vipr-frontend
+
+## How to Cite VIPR
+If you use this code in your research, please kindly cite the following paper
+
+```text
+@article{rustamov2026vipr,
+  title={VIPR: Versatile Inverse Problem Software Framework},
+  author={Rustamov, Jeyhun and Creutzburg, Sascha},
+  journal={arXiv preprint arXiv:nnnn.nnnnn},
+  year={2026}
+}
+```
 
 ## Acknowledgments
 
