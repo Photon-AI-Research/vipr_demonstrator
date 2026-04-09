@@ -1,15 +1,15 @@
 [submodule "framework"]
 	path = framework
-	url = git@codebase.helmholtz.cloud:vipr/vipr-framework.git
+	url = https://codebase.helmholtz.cloud/vipr/vipr-framework.git
 [submodule "core"]
 	path = core
-	url = git@codebase.helmholtz.cloud:vipr/vipr-core.git
+	url = https://codebase.helmholtz.cloud/vipr/vipr-core.git
 [submodule "api"]
 	path = api
-	url = git@codebase.helmholtz.cloud:vipr/vipr-api.git
+	url = https://codebase.helmholtz.cloud/vipr/vipr-api.git
 [submodule "frontend"]
 	path = frontend
-	url = git@codebase.helmholtz.cloud:vipr/vipr-frontend.git
+	url = https://codebase.helmholtz.cloud/vipr/vipr-frontend.git
 [submodule "reflectometry-plugin"]
 	path = reflectometry-plugin
-	url = git@codebase.helmholtz.cloud:vipr/vipr-reflectometry-plugin
+	url = https://codebase.helmholtz.cloud/vipr/vipr-reflectometry-plugin
