@@ -1,69 +1,108 @@
-# What is VIPR?
+<div align="center" style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;">
+  <img src="images/vipr_logo_small.png" alt="VIPR Logo" 
+  width="100" style="box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);"/> </div>
+
+## What is VIPR?
 TL;DR: VIPR (Versatile Inverse Problem Software Framework) is a modular machine learning framework designed for inverse problems in physics.
 
-Quick detail: VIPR (Versatile Inverse Problem Software Framework) is a plugin-based framework for reproducible machine-learning-driven solutions to scientific inverse problems.  It addresses ill-posed reconstruction tasks, e.g., caused by loss of phase information during measurement, where direct inversion is not possible. It implements a modular microkernel architecture with domain-specific plugins to produce configurable machine learning workflows, including both deterministic and probabilistic models. Workflows are defined via declarative YAML configurations and can be executed through a command-line interface or a containerized web application. For a given experimental dataset, VIPR produces standardized analysis artifacts, including visualizations and statistical summaries.
+Quick detail: VIPR (Versatile Inverse Problem Software Framework) is a plugin-based framework for reproducible machine-learning-driven solutions to scientific inverse problems.  It addresses ill-posed reconstruction tasks caused by loss of phase information during measurement, where direct inversion is not possible. It implements a modular microkernel architecture with domain-specific plugins to produce configurable machine learning workflows, including both deterministic and probabilistic models. Workflows are defined via declarative YAML configurations and can be executed through a command-line interface or a containerized web application. For a given experimental dataset, VIPR produces standardized analysis artifacts, including visualizations and statistical summaries.
 
-📊 **[TLDR Introduction](framework/docs-sphinx/docs/TLDR%20VIPR%20Introduction.pdf)** - Quick framework overview (PDF)
-
-**Getting Started:**
-- 🎉 `git clone --recursive https://github.com/Photon-AI-Research/vipr_demonstrator.git`
-- 🖥️ [CLI Tutorial](framework/VIPR_CLI.md) - Command-line interface
-- 🌐 [Web Application Tutorial](framework/VIPR_web_app.md) - Docker-based web UI
-- 🌐 [Web Application Without Docker](framework/VIPR_web_app_no_docker.md) - Local development setup
-
-## Overview
-
-**VIPR** is a modular ML framework with:
-- **vipr-frontend**: Web interface (Nuxt.js)
-- **vipr-api**: REST API backend (FastAPI) with async processing (Celery)
-- **vipr-core**: Extensible plugin framework (Python CLI)
-
-## Getting Started
-
-### 🖥️ Command Line Interface (CLI)
-- **[Getting Started Tutorial](framework/VIPR_CLI.md)** - Installation to first prediction
-- **[CLI Introduction Presentation](framework/docs-sphinx/docs/VIPR%20CLI%20introduction.pdf)** 📊 - CLI + Architecture deep-dive (PDF)
-- **[Installation Reference](framework/docs-sphinx/docs/installation/cli.md)** - Quick install & commands
-
-### 🌐 Web Application (Docker)
-- **[Getting Started Tutorial](framework/VIPR_web_app.md)** - Setup and first use
-- **[Without Docker](framework/VIPR_web_app_no_docker.md)** - Local development setup with Redis, API, worker, and frontend
-- **[Inference Flow](framework/docs-sphinx/docs/web-app/inference-flow.md)** - How inference works (Frontend → Backend → Core)
-- **[Deployment Reference](framework/docs-sphinx/docs/installation/docker.md)** - Services, configuration, troubleshooting
-- **Access**: http://localhost:3000 (UI), http://localhost:8000/docs (API)
-
-### 🔌 API Integration
-- **Setup**: Follow [Web App Tutorial](VIPR_web_app.md)
-- **API Docs**: http://localhost:8000/docs
-
-## Quick Links
-
-- [Documentation](framework/docs-sphinx/docs/) - Complete documentation
-- [Docker Deployment](framework/docs-sphinx/docs/installation/docker.md) - Web UI + API setup
-- [Web App Without Docker](framework/VIPR_web_app_no_docker.md) - Local development setup
-- [CLI Installation](framework/docs-sphinx/docs/installation/cli.md) - Local CLI setup
-- [CLI Commands](framework/docs-sphinx/docs/cli/commands.md) - Command reference
-
-## System Requirements
-
-- Python 3.10+
-
-
-## Project Structure
-
+## Repository strucure:
+vipr-demonstrator has directories titled vipr-\<component\>, which are basically submodules hosted at https://codebase.helmholtz.cloud/vipr/
 ```
-vipr-framework/
+vipr-demonstrator/
 ├── README.md                    # This file
-├── docker-compose.yml           # Docker orchestration
-├── common.env                   # Default environment config
-├── docs/
-│   ├── README.md                # Documentation index
-│   ├── installation/
-│   │   ├── cli.md               # CLI installation guide
-│   │   └── docker.md            # Docker deployment guide
-│   └── cli/
-│       └── commands.md          # CLI command reference
-└── storage/                     # Persistent data (created on startup)
+├── images                       # Images featured in this readme file
+├── vipr-api					 # REST API backend (FastAPI) with async processing (Celery)
+├── vipr-core					 # Provides fundamental infrastructure (e.g. CLI, config management, plugin ecosystem w/o domain logic).
+├── vipr-frontend				 # Web interface (Nuxt.js)
+├── vipr-framework               # Implements containerization of VIPR-project using docker-compose. Also features source files for the documentation hosted at (https://vipr-docs.pages.dev/) which might be of interest to developeers (and extra-keen users ;) )
+└── vipr-reflectometry-plugin    # Example domain-plugin, registers domain-specific handlers, filters, and hooks with the core.
+```
+
+## Inference Pipeline (as a user)
+
+At the core of VIPR is a domain-agnostic, graciously generic, five-step inference pipeline designed to
+support reproducible scientific workflows. The pipeline ensures that
+data flows through a predictable sequence of operations:
+
+1.  :floppy_disk: **Load Data:** Experimental files (e.g., CSV, HDF5) are loaded
+    and standardized into a unified `DataSet` structure containing
+    input given as a vector of arguments ($x$), a mapped vector of
+    values/results ($y$) optionally with uncertainties ($dx, dy$) by the corresponding file format-defined data handler.
+
+2.  :robot: **Load Model:** A pre-trained model is loaded and prepared
+    for inference on the configured device (CPU/GPU) by the model handler.
+
+3.  :hammer_and_pick: **Preprocess:** A chain of filters transforms the `DataSet` for  model consumption. Filters are executed in deterministic
+    weight-sorted order and configured via YAML, enabling operations
+    such as normalization, data cleaning, outlier removal, or
+    interpolation to the model's input grid.
+
+4.  :tada: **Predict:** The model generates predictions based on the
+    preprocessed input.
+
+5. :chart_with_upwards_trend: :bar_chart: :memo: **Postprocess:** Results are formatted, and hooks are triggered to generate artifacts (plots, tables) or persist results.
+
+
+## Software architecture in nutshell (in the interest of developers):
+
+VIPR is built upon the [Cement application framework](https://github.com/datafolklabs/cement/) and
+[NF4IP](https://github.com/Photon-AI-Research/NF4IP). The framework uses three primary mechanisms to ensure extensibility
+without modifying the core codebase:
+-   **Handlers** extend handler base classes (e.g., `DataLoaderHandler`,
+    `ModelLoaderHandler`, `PredictorHandler`) to implement
+    domain-specific data loading, model loading, and prediction.
+-   **Filters** are chainable functions that transform data passing
+    through the pipeline (e.g., interpolation, normalization). They are
+    executed in a deterministic, weight-sorted order.
+-   **Hooks** are callbacks used for non-transforming tasks such as
+    logging, validation, or real-time visualization.
+
+![Overview of VIPR](images/pictorial_overview_handmade.png)
+
+[Here](https://vipr-docs.pages.dev/) is a link to an in-depth documentation!
+
+## Steps to reproduce the results presented in the [arXiv paper](http://arxiv.org/abs/nnnn.nnnnn) 
+### Using CLI:
+```text
+git clone --recursive https://github.com/Photon-AI-Research/vipr_demonstrator.git
+% Setup a virtual environment and install all the dependencies
+cd vipr_demonstrator\vipr-api
+python3 -m venv venv
+source venv/bin/activate
+pip install .
+pip install -r requirements.txt 
+%%%%%%%%%%%%%%%%%%%%
+% reflectorch plugin example: deterministic workflow on experimental X-ray reflectometry data 
+% (PTCDI-C3 on thin SiO~x~ on Si substrate)
+vipr --config @vipr_reflectometry/reflectorch/examples/configs/PTCDI-C3.yaml inference run
+% Output path: `storage/results/inference/PTCDI-C3/`
+%%%%%%%%%%%%%%%%%%%%
+% normalizing flow example: Probabilistic workflow on experimental neutron reflectometry data 
+% (Pt/Fe MARIA dataset)
+mkdir -p storage/reflectometry/flow_models/configs/ storage/reflectometry/flow_models/saved_models/
+curl -L "https://codebase.helmholtz.cloud/vipr/models/reflectometry-nsf-nr-maria/-/raw/models/models/fxc34ran/config.yaml" -o storage/reflectometry/flow_models/configs/fxc34ran.yaml
+curl -L "https://codebase.helmholtz.cloud/vipr/models/reflectometry-nsf-nr-maria/-/raw/models/models/fxc34ran/model.pt" -o storage/reflectometry/flow_models/configs/fxc34ran.yaml
+vipr --config @vipr_reflectometry/flow_models/examples/configs/Fe_Pt_DN_NSF_fxc34ran.yaml inference run
+% Output path: `storage/results/inference/PTCDI-C3/`
+```
+
+### Using VIPR Web App Without Docker
+```text
+% Use new terminal to install and start Redis 
+cd ~
+wget https://download.redis.io/redis-stable.tar.gz
+tar xzf redis-stable.tar.gz
+cd redis-stable
+make
+~/redis-stable/src/redis-server --port 6379 --daemonize yes --logfile ~/redis.log --dir ~/
+% Setup a virtual environment and install all the dependencies (see above)
+% In the frontend, open the examples dialog by clicking the Load Examples button.
+% Load `PTCDI C3` or `fxc34ran` example
+% Click run inference
+% make sure to shut down Redis in the end using the following command
+~/redis-stable/src/redis-cli shutdown
 ```
 
 ## License
@@ -71,14 +110,6 @@ vipr-framework/
 This project is licensed under the GNU Lesser General Public License v3.0 or later (LGPL-3.0-or-later).
 
 See [LICENSE.txt](framework/LICENSE.txt) for the full license text and [NOTICE.txt](framework/NOTICE.txt) for component information.
-
-### VIPR Components
-
-The VIPR Framework orchestrates multiple components, each with their own repositories and LGPL-3.0-or-later license:
-- **vipr-core**: Core Python framework - https://codebase.helmholtz.cloud/vipr/vipr-core
-- **vipr-api**: FastAPI backend service - https://codebase.helmholtz.cloud/vipr/vipr-api
-- **vipr-reflectometry-plugin**: Reflectometry analysis plugin - https://codebase.helmholtz.cloud/vipr/vipr-reflectometry-plugin
-- **vipr-frontend**: Nuxt.js web application - https://codebase.helmholtz.cloud/vipr/vipr-frontend
 
 ## How to Cite VIPR
 If you use this code in your research, please kindly cite the following paper
