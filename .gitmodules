@@ -1,15 +1,20 @@
 [submodule "framework"]
 	path = vipr-framework
 	url = https://codebase.helmholtz.cloud/vipr/vipr-framework.git
+	update = merge 
 [submodule "core"]
 	path = vipr-core
 	url = https://codebase.helmholtz.cloud/vipr/vipr-core.git
+	update = merge 
 [submodule "api"]
 	path = vipr-api
 	url = https://codebase.helmholtz.cloud/vipr/vipr-api.git
+	update = merge 
 [submodule "frontend"]
 	path = vipr-frontend
 	url = https://codebase.helmholtz.cloud/vipr/vipr-frontend.git
+	update = merge 
 [submodule "reflectometry-plugin"]
 	path = vipr-reflectometry-plugin
 	url = https://codebase.helmholtz.cloud/vipr/vipr-reflectometry-plugin
+	update = merge 
