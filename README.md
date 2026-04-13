@@ -8,7 +8,7 @@ TL;DR: VIPR (Versatile Inverse Problem Software Framework) is a modular machine 
 Quick detail: VIPR (Versatile Inverse Problem Software Framework) is a plugin-based framework for reproducible machine-learning-driven solutions to scientific inverse problems.  It addresses ill-posed reconstruction tasks caused by loss of phase information during measurement, where direct inversion is not possible. It implements a modular microkernel architecture with domain-specific plugins to produce configurable machine learning workflows, including both deterministic and probabilistic models. Workflows are defined via declarative YAML configurations and can be executed through a command-line interface or a containerized web application. For a given experimental dataset, VIPR produces standardized analysis artifacts, including visualizations and statistical summaries.
 
 ## Repository strucure:
-vipr-demonstrator has directories titled vipr-\<component\>, which are basically submodules hosted at https://codebase.helmholtz.cloud/vipr/
+vipr-demonstrator has directories titled `vipr-<component>`, which are basically submodules hosted at https://codebase.helmholtz.cloud/vipr/
 ```
 vipr-demonstrator/
 ├── README.md                    # This file
@@ -42,7 +42,7 @@ data flows through a predictable sequence of operations:
 4.  :tada: **Predict:** The model generates predictions based on the
     preprocessed input.
 
-5. :chart_with_upwards_trend: :bar_chart: :memo: **Postprocess:** Results are formatted, and hooks are triggered to generate artifacts (plots, tables) or persist results.
+5. :bar_chart: **Postprocess:** Results are formatted, and hooks are triggered to generate artifacts (plots, tables) or persist results.
 
 
 ## Software architecture in nutshell (in the interest of developers):
