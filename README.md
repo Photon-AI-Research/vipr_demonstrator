@@ -59,7 +59,11 @@ without modifying the core codebase:
 -   **Hooks** are callbacks used for non-transforming tasks such as
     logging, validation, or real-time visualization.
 
-![Overview of VIPR](images/pictorial_overview_handmade.png)
+![Overview of VIPR](images/vipr_deployment_alternate.png)
+
+### Deployment architecture
+![Deployment architecture](images/pictorial_overview_handmade.png)
+
 
 [Here](https://vipr-docs.pages.dev/) is a link to an in-depth documentation!
 
