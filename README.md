@@ -20,11 +20,9 @@ vipr-demonstrator/
 └── vipr-reflectometry-plugin    # Example domain-plugin, registers domain-specific handlers, filters, and hooks with the core.
 ```
 
-## Inference Pipeline (as a user)
+## Inference Pipeline Overview
 
-At the core of VIPR is a domain-agnostic, graciously generic, five-step inference pipeline designed to
-support reproducible scientific workflows. The pipeline ensures that
-data flows through a predictable sequence of operations:
+Users can perform analysis via either the command-line interface (CLI) or the web interface (check 'Steps to reproduce...' subsection for details). Regardless of the choice of interface, at the core of VIPR is a domain-agnostic, five-step, standardized inference pipeline ensuring a reproducible workflows. The pipeline ensures that data flows through a predictable sequence of operations:
 
 1.  :floppy_disk: **Load Data:** Experimental files (e.g., CSV, HDF5) are loaded
     and standardized into a unified `DataSet` structure containing
@@ -45,7 +43,7 @@ data flows through a predictable sequence of operations:
 5. :bar_chart: **Postprocess:** Results are formatted, and hooks are triggered to generate artifacts (plots, tables) or persist results.
 
 
-## Software architecture in nutshell (in the interest of developers):
+## Software architecture in nutshell (in the interest of developers especially):
 
 VIPR is built upon the [Cement application framework](https://github.com/datafolklabs/cement/) and
 [NF4IP](https://github.com/Photon-AI-Research/NF4IP). The framework uses three primary mechanisms to ensure extensibility
