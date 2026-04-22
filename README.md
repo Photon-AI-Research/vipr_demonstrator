@@ -7,7 +7,7 @@ TL;DR: VIPR (Versatile Inverse Problem Software Framework) is a modular machine 
 
 Quick detail: VIPR (Versatile Inverse Problem Software Framework) is a plugin-based framework for reproducible machine-learning-driven solutions to scientific inverse problems.  It addresses ill-posed reconstruction tasks caused by loss of phase information during measurement, where direct inversion is not possible. It implements a modular microkernel architecture with domain-specific plugins to produce configurable machine learning workflows, including both deterministic and probabilistic models. Workflows are defined via declarative YAML configurations and can be executed through a command-line interface or a containerized web application. For a given experimental dataset, VIPR produces standardized analysis artifacts, including visualizations and statistical summaries.
 
-## Repository strucure:
+## Repository structure:
 vipr-demonstrator has directories titled `vipr-<component>`, which are basically submodules hosted at https://codebase.helmholtz.cloud/vipr/
 ```
 vipr-demonstrator/
@@ -16,13 +16,13 @@ vipr-demonstrator/
 ├── vipr-api					 # REST API backend (FastAPI) with async processing (Celery)
 ├── vipr-core					 # Provides fundamental infrastructure (e.g. CLI, config management, plugin ecosystem w/o domain logic).
 ├── vipr-frontend				 # Web interface (Nuxt.js)
-├── vipr-framework               # Implements containerization of VIPR-project using docker-compose. Also features source files for the documentation hosted at (https://vipr-docs.pages.dev/) which might be of interest to developeers (and extra-keen users ;) )
+├── vipr-framework               # Implements containerization of VIPR-project using docker-compose. Also features source files for the documentation hosted at (https://vipr-docs.pages.dev/) which might be of interest to developers (and extra-keen users ;) )
 └── vipr-reflectometry-plugin    # Example domain-plugin, registers domain-specific handlers, filters, and hooks with the core.
 ```
 
 ## Inference Pipeline Overview
 
-Users can perform analysis via either the command-line interface (CLI) or the web interface (check 'Steps to reproduce...' subsection for details). Regardless of the choice of interface, at the core of VIPR is a domain-agnostic, five-step, standardized inference pipeline ensuring a reproducible workflows. The pipeline ensures that data flows through a predictable sequence of operations:
+Users can perform analysis via either the command-line interface (CLI) or the web interface (check 'Steps to reproduce...' subsection for details). Regardless of the choice of interface, at the core of VIPR is a domain-agnostic, five-step, standardized inference pipeline ensuring a reproducible workflow. The pipeline ensures that data flows through a predictable sequence of operations:
 
 1.  :floppy_disk: **Load Data:** Experimental files (e.g., CSV, HDF5) are loaded
     and standardized into a unified `DataSet` structure containing
@@ -43,7 +43,7 @@ Users can perform analysis via either the command-line interface (CLI) or the we
 5. :bar_chart: **Postprocess:** Results are formatted, and hooks are triggered to generate artifacts (plots, tables) or persist results.
 
 
-## Software architecture in nutshell (in the interest of developers especially):
+## Software architecture in a nutshell (in the interest of developers especially):
 
 VIPR is built upon the [Cement application framework](https://github.com/datafolklabs/cement/) and
 [NF4IP](https://github.com/Photon-AI-Research/NF4IP). The framework uses three primary mechanisms to ensure extensibility
@@ -67,51 +67,112 @@ without modifying the core codebase:
 
 ## Steps to reproduce the results presented in the [arXiv paper](http://arxiv.org/abs/nnnn.nnnnn) 
 ### Using CLI:
-```text
+```bash
 git clone --recursive https://github.com/Photon-AI-Research/vipr_demonstrator.git
-% Setup a virtual environment and install all the dependencies
-cd vipr_demonstrator\vipr-api
+# Setup a virtual environment and install all the dependencies
+cd vipr_demonstrator/vipr-api
 python3 -m venv venv
 source venv/bin/activate
 pip install .
 pip install -r requirements.txt 
-%%%%%%%%%%%%%%%%%%%%
-% reflectorch plugin example: deterministic workflow on experimental X-ray reflectometry data 
-% (PTCDI-C3 on thin SiO~x~ on Si substrate)
+####################
+# reflectorch plugin example: deterministic workflow on experimental X-ray reflectometry data
+# (PTCDI-C3 on thin SiO~x~ on Si substrate)
 vipr --config @vipr_reflectometry/reflectorch/examples/configs/PTCDI-C3.yaml inference run
-% Output path: `storage/results/inference/PTCDI-C3/`
-%%%%%%%%%%%%%%%%%%%%
-% normalizing flow example: Probabilistic workflow on experimental neutron reflectometry data 
-% (Pt/Fe MARIA dataset)
+# Output path: storage/results/inference/PTCDI-C3/
+####################
+# normalizing flow example: probabilistic workflow on experimental neutron reflectometry data
+# (Pt/Fe MARIA dataset)
+# TODO(public-model-release): switch these downloads to public Hugging Face artifacts.
+# Current GitLab URLs require authenticated access to codebase.helmholtz.cloud.
 mkdir -p storage/reflectometry/flow_models/configs/ storage/reflectometry/flow_models/saved_models/
 curl -L "https://codebase.helmholtz.cloud/vipr/models/reflectometry-nsf-nr-maria/-/raw/models/models/fxc34ran/config.yaml" -o storage/reflectometry/flow_models/configs/fxc34ran.yaml
-curl -L "https://codebase.helmholtz.cloud/vipr/models/reflectometry-nsf-nr-maria/-/raw/models/models/fxc34ran/model.pt" -o storage/reflectometry/flow_models/configs/fxc34ran.yaml
-vipr --config @vipr_reflectometry/flow_models/examples/configs/Fe_Pt_DN_NSF_fxc34ran.yaml inference run
-% Output path: `storage/results/inference/PTCDI-C3/`
+curl -L "https://codebase.helmholtz.cloud/vipr/models/reflectometry-nsf-nr-maria/-/raw/models/models/fxc34ran/model.pt" -o storage/reflectometry/flow_models/saved_models/fxc34ran.pt
+vipr --config @vipr_reflectometry/flow_models/examples/configs/Fe_Pt_DN_NSF.yaml inference run
+# Output path: storage/results/inference/<result_id>/
 ```
 
 ### Using VIPR Web App Without Docker
-```text
-% Use new terminal to install and start Redis 
-cd ~
-wget https://download.redis.io/redis-stable.tar.gz
-tar xzf redis-stable.tar.gz
-cd redis-stable
-make
-~/redis-stable/src/redis-server --port 6379 --daemonize yes --logfile ~/redis.log --dir ~/
-% Setup a virtual environment and install all the dependencies (see above)
-% In the frontend, open the examples dialog by clicking the Load Examples button.
-% Load `PTCDI C3` or `fxc34ran` example
-% Click run inference
-% make sure to shut down Redis in the end using the following command
-~/redis-stable/src/redis-cli shutdown
+```bash
+# From the demonstrator root
+cd vipr_demonstrator
+
+# 1) Install and start Redis (Ubuntu/Debian)
+sudo apt update
+sudo apt install -y redis-server redis-tools
+sudo systemctl enable redis-server
+sudo systemctl start redis-server
+redis-cli ping   # should print PONG
+
+# Alternative without system-wide install:
+# cd ~
+# wget https://download.redis.io/redis-stable.tar.gz
+# tar xzf redis-stable.tar.gz
+# cd redis-stable
+# make
+# ~/redis-stable/src/redis-server --port 6379 --daemonize yes --logfile ~/redis.log --dir ~/
+
+# 2) Prepare VIPR API environment
+cd vipr-api
+# If you already ran the CLI setup above, reuse that environment:
+# source venv/bin/activate
+# Otherwise create it now:
+python3 -m venv venv
+source venv/bin/activate
+pip install .
+pip install -r requirements.txt
+cp example.env .env
+export $(grep -v '^#' .env | xargs)
+
+# 3) Create required storage directories
+mkdir -p \
+  storage/reflectometry/flow_models/configs \
+  storage/reflectometry/flow_models/saved_models \
+  storage/huggingface_cache \
+  storage/results
+
+# 4) Start API (terminal 1)
+python -m vipr_api.main
+
+# Optional: skip model download during startup if models are already present
+# VIPR_NO_MODEL_DOWNLOAD=true python -m vipr_api.main
+
+# 5) Start worker (terminal 2)
+cd vipr_demonstrator/vipr-api
+source venv/bin/activate
+export $(grep -v '^#' .env | xargs)
+celery -A vipr_api.celery.celery_app worker --loglevel=debug -c 1
+
+# 6) Start frontend (terminal 3)
+cd vipr_demonstrator/vipr-frontend
+# If nvm is not installed:
+# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+nvm install
+nvm use
+npm i
+npm run dev
+
+# 7) Open UI and run examples
+# Frontend: http://localhost:3000
+# API docs: http://localhost:8000/docs
+# In the frontend, click "Load Examples" and run "PTCDI C3" or "fxc34ran".
+
+# 8) If fxc34ran model files are missing:
+# Reuse the download commands from the CLI section above
+# (normalizing flow example for the Pt/Fe MARIA dataset).
+
+# 9) Shutdown
+# Stop API, worker, and frontend with Ctrl+C in their terminals.
+sudo systemctl stop redis-server
+# If you used the local Redis build, stop it with:
+# ~/redis-stable/src/redis-cli shutdown
 ```
 
 ## License
 
 This project is licensed under the GNU Lesser General Public License v3.0 or later (LGPL-3.0-or-later).
 
-See [LICENSE.txt](framework/LICENSE.txt) for the full license text and [NOTICE.txt](framework/NOTICE.txt) for component information.
+See [LICENSE.txt](vipr-framework/LICENSE.txt) for the full license text and [NOTICE.txt](vipr-framework/NOTICE.txt) for component information.
 
 ## How to Cite VIPR
 If you use this code in your research, please kindly cite the following paper
