@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Rustamov
+    given-names: Jeyhun
+    orcid: https://orcid.org/0000-0002-4803-2461
+  - family-names: Creutzburg
+    given-names: Sascha 
+  - family-names: Bornschein
+    given-names: Jens 
+  - family-names: Ganeva
+    given-names: Marina
+  - family-names: Gerlach
+    given-names: Alexander
+  - family-names: Häusler
+    given-names: Stefan
+  - family-names: Helm
+    given-names: Bernd
+  - family-names: Hinderhofer
+    given-names: Alexander
+  - family-names: Juzak
+    given-names: Robert
+  - family-names: Koutsioumpas
+    given-names: Alexandros
+  - family-names: Munteanu
+    given-names: Valentin
+  - family-names: Pandit
+    given-names: Vedhas
+  - family-names: Schreiber
+    given-names: Frank
+  - family-names: Mothes
+    given-names: Nico
+  - family-names: Kelling
+    given-names: Jeffrey
+    orcid: https://orcid.org/0000-0003-1761-2591
+title: "VIPR (Versatile Inverse Problem Software Framework) unified demonstrator"
+version: 1.0
+license: LGPL-3.0-or-later
+identifiers:
+  - description: Snapshots on RODARE publication platform
+    type: doi
+    value: 10.14278/rodare.4633
+date-released: 2026-04-29
