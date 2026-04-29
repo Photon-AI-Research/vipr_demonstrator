@@ -5,7 +5,7 @@
 ## What is VIPR?
 TL;DR: VIPR (Versatile Inverse Problem Software Framework) is a modular machine learning framework designed for inverse problems in physics.
 
-Quick detail: VIPR (Versatile Inverse Problem Software Framework) is a plugin-based framework for reproducible machine-learning-driven solutions to scientific inverse problems.  It addresses ill-posed reconstruction tasks caused by loss of phase information during measurement, where direct inversion is not possible. It implements a modular microkernel architecture with domain-specific plugins to produce configurable machine learning workflows, including both deterministic and probabilistic models. Workflows are defined via declarative YAML configurations and can be executed through a command-line interface or a containerized web application. For a given experimental dataset, VIPR produces standardized analysis artifacts, including visualizations and statistical summaries.
+Quick detail: VIPR (Versatile Inverse Problem Software Framework) is a plugin-based framework for reproducible machine-learning-driven solutions to scientific inverse problems.  It addresses ill-posed reconstruction tasks caused by loss of phase information during measurement, where direct inversion is not possible. It implements a modular architecture with domain-specific plugins to produce configurable machine learning workflows, including both deterministic and probabilistic models. Workflows are defined via declarative YAML configurations and can be executed through a command-line interface or a containerized web application. For a given experimental dataset, VIPR produces standardized analysis artifacts, including visualizations and statistical summaries.
 
 ## Repository strucure:
 vipr-demonstrator has directories titled `vipr-<component>`, which are basically submodules hosted at https://codebase.helmholtz.cloud/vipr/
@@ -133,7 +133,7 @@ This project is developed by the VIPR Project Consortium with contributions from
 - [Technische Universität München (TUM)](https://www.tum.de)
 - [University of Tübingen](https://www.uni-tuebingen.de)
 - [University of Siegen](https://www.uni-siegen.de)
-- [Helmholtz-Zentrum Dresden-Rossendorf (HZDR)](https://www.hzdr.de)
+- [Helmholtz-Zentrum Dresden - Rossendorf (HZDR)](https://www.hzdr.de)
 - [DESY (Deutsches Elektronen-Synchrotron)](https://www.desy.de)
 
 For more information, visit: https://vipr-project.de
