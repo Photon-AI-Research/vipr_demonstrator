@@ -83,11 +83,9 @@ vipr --config @vipr_reflectometry/reflectorch/examples/configs/PTCDI-C3.yaml inf
 ####################
 # normalizing flow example: probabilistic workflow on experimental neutron reflectometry data
 # (Pt/Fe MARIA dataset)
-# TODO(public-model-release): switch these downloads to public Hugging Face artifacts.
-# Current GitLab URLs require authenticated access to codebase.helmholtz.cloud.
 mkdir -p storage/reflectometry/flow_models/configs/ storage/reflectometry/flow_models/saved_models/
-curl -L "https://codebase.helmholtz.cloud/vipr/models/reflectometry-nsf-nr-maria/-/raw/models/models/fxc34ran/config.yaml" -o storage/reflectometry/flow_models/configs/fxc34ran.yaml
-curl -L "https://codebase.helmholtz.cloud/vipr/models/reflectometry-nsf-nr-maria/-/raw/models/models/fxc34ran/model.pt" -o storage/reflectometry/flow_models/saved_models/fxc34ran.pt
+curl -L "https://huggingface.co/hzdr-ml4pcs/reflectometry-nsf-nr-maria/resolve/main/models/fxc34ran/config.yaml" -o storage/reflectometry/flow_models/configs/fxc34ran.yaml
+curl -L "https://huggingface.co/hzdr-ml4pcs/reflectometry-nsf-nr-maria/resolve/main/models/fxc34ran/model.pt" -o storage/reflectometry/flow_models/saved_models/fxc34ran.pt
 vipr --config @vipr_reflectometry/flow_models/examples/configs/Fe_Pt_DN_NSF.yaml inference run
 # Output path: storage/results/inference/<result_id>/
 ```
