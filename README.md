@@ -67,6 +67,7 @@ without modifying the core codebase:
 
 ## Steps to reproduce the results presented in the [arXiv paper](http://arxiv.org/abs/nnnn.nnnnn) 
 ### Using CLI:
+> **Requirements:** Python 3.10 or higher
 ```bash
 git clone --recursive https://github.com/Photon-AI-Research/vipr_demonstrator.git
 # Setup a virtual environment and install all the dependencies
@@ -91,6 +92,7 @@ vipr --config @vipr_reflectometry/flow_models/examples/configs/Fe_Pt_DN_NSF.yaml
 ```
 
 ### Using VIPR Web App Without Docker
+> **Requirements:** Python 3.10 or higher
 ```bash
 # From the demonstrator root
 cd vipr_demonstrator
