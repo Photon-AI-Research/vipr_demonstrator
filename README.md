@@ -141,7 +141,9 @@ python -m vipr_api.main
 cd vipr_demonstrator/vipr-api
 source venv/bin/activate
 export $(grep -v '^#' .env | xargs)
-celery -A vipr_api.celery.celery_app worker --loglevel=debug -c 1
+# The solo pool allows inference handlers such as refnx MCMC to start their
+# own multiprocessing pool (for example, with prediction.pool: -1).
+celery -A vipr_api.celery.celery_app worker --loglevel=debug --pool=solo
 
 # 6) Start frontend (terminal 3)
 cd vipr_demonstrator/vipr-frontend
