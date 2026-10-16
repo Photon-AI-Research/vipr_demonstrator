@@ -65,7 +65,7 @@ without modifying the core codebase:
 
 [Here](https://vipr-docs.pages.dev/) is a link to an in-depth documentation!
 
-## Steps to reproduce the results presented in the [arXiv paper](http://arxiv.org/abs/nnnn.nnnnn) 
+## Steps to reproduce the results presented in the [SSRN preprint](http://dx.doi.org/10.2139/ssrn.7166810)
 ### Using CLI:
 > **Requirements:** Python 3.10 or higher
 ```bash
@@ -181,7 +181,8 @@ If you use this code in your research, please kindly cite the following paper
 @article{rustamov2026vipr,
   title={VIPR: Versatile Inverse Problem Software Framework},
   author={Rustamov, Jeyhun and Creutzburg, Sascha},
-  journal={arXiv preprint arXiv:nnnn.nnnnn},
+  journal={SSRN preprint ssrn:7166810},
+  doi={10.2139/ssrn.7166810},
   year={2026}
 }
 ```
