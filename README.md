@@ -65,7 +65,7 @@ without modifying the core codebase:
 
 [Here](https://vipr-docs.pages.dev/) is a link to an in-depth documentation!
 
-## Steps to reproduce the results presented in the [arXiv paper](http://arxiv.org/abs/nnnn.nnnnn) 
+## Steps to reproduce the results presented in the [paper]([https://dx.doi.org/](https://doi.org/10.1016/j.softx.2026.pp)) 
 ### Using CLI:
 > **Requirements:** Python 3.10 or higher
 ```bash
